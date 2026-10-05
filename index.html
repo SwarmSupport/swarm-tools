@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self' data:; connect-src https://ipinfo.io" />
+  <title>Swarm Tools</title>
+  <link id="app-favicon" rel="icon" type="image/png" href="assets/app-icon.png?v=6" />
+  <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="renderer.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-brand"><img id="brand-icon" src="assets/app-icon.png?v=6" alt="" /><strong>Swarm Tools</strong></div>
+      <div class="top-actions">
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch to dark theme"><i id="theme-icon" class="fa-solid fa-moon" aria-hidden="true"></i></button>
+        <span id="save-status" class="save-status" role="status" aria-live="polite"></span>
+        <button class="topbar-settings" data-page="global" type="button" aria-label="Settings" title="Settings"><i class="fa-solid fa-gear" aria-hidden="true"></i></button>
+      </div>
+    </header>
+    <div class="workspace">
+      <aside class="sidebar">
+        <div class="nav-label">MAIN</div>
+        <nav aria-label="Main navigation">
+          <button class="nav-item selected" data-page="overview" type="button"><span class="nav-icon"><i class="fa-solid fa-house" aria-hidden="true"></i></span> Home</button>
+          <button class="nav-item" data-page="global" type="button"><span class="nav-icon"><i class="fa-solid fa-gear" aria-hidden="true"></i></span> Settings</button>
+        </nav>
+        <div class="nav-heading"><span class="nav-label">SITES</span><button id="add-platform-button" class="add-platform-button" data-action="show-add-platform" type="button" aria-label="Add platform" title="Add platform">+</button></div>
+        <form id="platform-create-form" class="platform-create-form" hidden>
+          <input id="platform-name" name="platformName" maxlength="50" placeholder="Platform name" aria-label="Platform name" required />
+          <div><button type="submit">Add</button><button data-action="cancel-add-platform" type="button">Cancel</button></div>
+        </form>
+        <nav id="platform-nav" aria-label="Platforms"></nav>
+        <div class="sidebar-footer">
+          <div class="sidebar-copyright"><span>Copyright © 2026</span><strong>Swarm Technologies LLC</strong><small>All rights reserved.</small></div>
+        </div>
+      </aside>
+      <div class="main-column">
+        <main id="main-content" class="content"></main>
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

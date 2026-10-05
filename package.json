@@ -1,0 +1,20 @@
+{
+  "name": "swarm-tools",
+  "productName": "Swarm Tools",
+  "version": "1.0.0",
+  "description": "Swarm Tools network access app",
+  "main": "main.js",
+  "scripts": {
+    "build:core": "node scripts/build-core.js",
+    "prestart": "npm run build:core",
+    "start": "electron .",
+    "test": "node --test && python3 -m unittest discover -s test -p 'test_*.py'"
+  },
+  "devDependencies": {
+    "electron": "^44.5.1"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.3.1"
+  }
+}

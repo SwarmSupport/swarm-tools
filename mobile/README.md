@@ -1,0 +1,12 @@
+# Mobile VPN integration status
+
+This directory contains native entry points for Android `VpnService` and an iOS `NEPacketTunnelProvider` extension. **Neither target currently forwards traffic or offers a working VPN.** They deliberately refuse to start without a packet engine so a device-wide route cannot blackhole the user's connection.
+
+`st-core` now provides a Go Mobile `mobilecore` binding with loopback HTTP and SOCKS5 proxy listeners. Build it from the core repository with `./scripts/build-mobile.sh android` or `./scripts/build-mobile.sh ios com.northstar.mobile`. Its API has `NewCore()`, `Start(httpPort, socksPort)`, `HTTPAddress()`, `SOCKS5Address()`, `LastError()`, and `Stop()`. The binding makes direct outbound connections, and it does not read TUN packets or apply the desktop routing policy. An Electron window cannot run on iOS or Android. The work needed to meet the mobile VPN requirement is:
+
+1. Extend the mobile binding to accept configuration and carry the desktop routing policy, DoH resolver, and origin mappings. Do not bundle the current CA private key. Speed tests in the desktop core are on demand and do not participate in routing.
+2. Add a userspace IP stack or tun-to-SOCKS bridge that consumes the platform TUN packets, handles TCP, UDP and DNS, and writes response packets back. Both platforms need a loop-free path for the engine's own sockets (Android `VpnService.protect` and the Network Extension's underlying network path).
+3. Wire the Android TUN file descriptor and iOS `packetFlow` to that engine. Establish the default route only after the engine and configuration are ready. Stop and tear down the route on any startup or forwarding failure.
+4. Add mobile configuration storage, VPN consent/configuration UI, lifecycle handling, signing, and on-device tests of TCP, UDP, DNS, IPv4/IPv6 and disconnect behavior.
+
+`android/` is a Gradle source project. The local machine does not have an Android SDK or Gradle wrapper, so it has not been built. `ios/project.yml` is an XcodeGen project specification; generating and signing the extension requires XcodeGen and an Apple developer profile with the Network Extension entitlement. The Go Mobile artifacts are not bundled in this repository, and the two source targets alone are not installable VPN apps.

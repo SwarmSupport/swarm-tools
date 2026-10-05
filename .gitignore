@@ -147,3 +147,12 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# macOS metadata
+.DS_Store
+._*
+__MACOSX/
+
+# Locally built core binaries
+bin/st-core
+bin/st-core.exe
