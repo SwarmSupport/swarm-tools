@@ -3,7 +3,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 
-const source = process.env.ST_CORE_DIR || '/Users/xiaoyuan/Documents/st-core';
+const source = process.env.ST_CORE_DIR || path.join(__dirname, '..', 'st-core');
 const destination = path.join(__dirname, '..', 'bin', process.platform === 'win32' ? 'st-core.exe' : 'st-core');
 fs.mkdirSync(path.dirname(destination), { recursive: true });
 const env = { ...process.env, GOCACHE: process.env.GOCACHE || path.join(os.tmpdir(), 'swarm-tools-go-cache') };

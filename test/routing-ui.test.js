@@ -5,6 +5,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 const renderer = fs.readFileSync(path.join(__dirname, '..', 'renderer.js'), 'utf8');
+const presetDomains = fs.readFileSync(path.join(__dirname, '..', 'preset-domains.js'), 'utf8');
 
 async function fixture(mode, running, failStart = false, savedPlatforms = { domains: {}, platforms: [] }) {
   const handlers = {};
@@ -38,6 +39,7 @@ async function fixture(mode, running, failStart = false, savedPlatforms = { doma
   let starts = 0;
   let stops = 0;
   let resetPrepared = 0;
+  let popupCloses = 0;
   let confirmReset = true;
   let statusCallback;
   const bridge = {
@@ -71,22 +73,25 @@ async function fixture(mode, running, failStart = false, savedPlatforms = { doma
     documentElement: { classList: { toggle() {} }, dataset: {} },
     querySelector: element,
     querySelectorAll: () => [],
-    addEventListener(type, callback) { handlers[`document:${type}`] = callback; }
+    addEventListener(type, callback) { handlers[`document:${type}`] = callback; },
+    dispatchEvent(event) { if (event.type === 'app:popup-close') popupCloses++; handlers[`document:${event.type}`]?.(event); }
   };
   const context = vm.createContext({
     document, navigator: { platform: 'MacIntel' },
     window: { desktop: bridge, confirm: () => confirmReset, matchMedia: () => ({ matches: false, addEventListener() {} }) },
     localStorage: { getItem: key => localValues.get(key) ?? null, setItem: (key, value) => localValues.set(key, value) },
-    structuredClone, URL, Intl,
+    structuredClone, URL, Intl, Event,
     setTimeout: callback => { const id = ++nextTimerId; timers.set(id, callback); return id; },
     clearTimeout: id => timers.delete(id)
   });
+  vm.runInContext(presetDomains, context);
   vm.runInContext(renderer, context);
   await new Promise(resolve => setImmediate(resolve));
   return {
     change: checked => handlers['#main-content:change']({ target: { dataset: { systemSetting: 'enabled' }, checked } }),
     openPlatform: platformId => handlers['document:click']({ target: { closest: selector => selector === '[data-page]' ? { dataset: { page: platformId } } : null } }),
     openSettings: () => handlers['document:click']({ target: { closest: selector => selector === '[data-page]' ? { dataset: { page: 'global' } } : null } }),
+    clickAction: action => handlers['document:click']({ target: { closest: selector => selector === '[data-action]' ? { dataset: { action } } : null } }),
     resetConfig: () => {
       const button = { dataset: { action: 'reset-config' }, disabled: false };
       return handlers['document:click']({ target: { closest: selector => selector === '[data-action]' || selector === 'button' ? button : null } });
@@ -105,7 +110,7 @@ async function fixture(mode, running, failStart = false, savedPlatforms = { doma
         await callback();
       }
     },
-    state: () => ({ savedConfig, savedSettings, domains, serviceRunning, starts, stops, resetPrepared, markup: element('#main-content').innerHTML, saveStatus: element('#save-status').textContent })
+    state: () => ({ savedConfig, savedSettings, domains, serviceRunning, starts, stops, resetPrepared, popupCloses, markup: element('#main-content').innerHTML, saveStatus: element('#save-status').textContent })
   };
 }
 
@@ -116,6 +121,14 @@ test('Rule mode stays selected when routing is turned off and back on', async ()
   assert.equal(app.state().savedConfig.routing.mode, 'rule');
   assert.equal(app.state().serviceRunning, true);
   assert.match(app.state().markup, /stat-word">rule/);
+});
+
+test('closing a collapsible panel emits popup-close, opening it does not', async () => {
+  const app = await fixture('rule', false);
+  await app.clickAction('toggle-system-config');
+  assert.equal(app.state().popupCloses, 0);
+  await app.clickAction('toggle-system-config');
+  assert.equal(app.state().popupCloses, 1);
 });
 
 test('connection methods form a single choice and show the current choice in the row', async () => {
@@ -129,6 +142,14 @@ test('connection methods form a single choice and show the current choice in the
   await app.selectMethod('hosts');
   assert.deepEqual(app.state().savedSettings, { enabled: true, hosts: true, proxy: false, dns: false });
   assert.match(app.state().markup, /routing-current-method">Hosts file/);
+});
+
+test('Settings places speed test addresses beside timeout and omits the selected IP card', async () => {
+  const app = await fixture('rule', false);
+  await app.openSettings();
+  const markup = app.state().markup;
+  assert.doesNotMatch(markup, /Selected IPs on this start|selected-ip-output/);
+  assert.match(markup, /Timeout \(seconds\).*?<label class="field"><span>Addresses to test<\/span><input id="speedtest-targets"/s);
 });
 
 test('platform domains render A–Z and only added domains can be removed', async () => {

@@ -1,15 +1,15 @@
 const platforms = [
-  { id: 'discord', name: 'Discord', icon: 'fa-brands fa-discord', color: '#5865f2', bg: '#eef0ff', domains: ['dis.gd', 'discord.com', 'discord.gg', 'discord.gift', 'discord.media', 'discord.new', 'discordapp.com', 'discordapp.io', 'discordapp.net', 'discordcdn.com', 'discordstatus.com'], note: 'Chat, voice, and community services' },
-  { id: 'duckduckgo', name: 'DuckDuckGo', icon: 'fa-solid fa-magnifying-glass', color: '#e45b33', bg: '#fff0e9', domains: ['ddg.co', 'ddg.gg', 'duck.ai', 'duck.co', 'duck.com', 'duckduckgo.com', 'duckduckgo.org'], note: 'Private search and related assets' },
-  { id: 'facebook', name: 'Facebook', icon: 'fa-brands fa-facebook-f', color: '#0866ff', bg: '#e9f1ff', domains: ['facebook.com', 'facebook.net', 'fb.com', 'fb.me', 'fbcdn.com', 'fbcdn.net', 'fbsbx.com', 'm.me', 'messenger.com'], note: 'Social and messaging services' },
-  { id: 'instagram', name: 'Instagram', icon: 'fa-brands fa-instagram', color: '#d34b80', bg: '#fff0f6', domains: ['cdninstagram.com', 'instagr.am', 'instagram.com'], note: 'Photos, reels, and media assets' },
-  { id: 'github', name: 'GitHub', icon: 'fa-brands fa-github', color: '#24292f', bg: '#e9edf1', domains: ['github.com', 'githubusercontent.com', 'githubassets.com'], note: 'Code hosting and related assets' },
-  { id: 'huggingface', name: 'Hugging Face', icon: 'fa-solid fa-face-smile', color: '#d79b00', bg: '#fff5d7', domains: ['huggingface.co', 'hf.co', 'xethub.hf.co'], note: 'Models, datasets, and inference' },
-  { id: 'ao3', name: 'AO3', icon: 'fa-solid fa-book-open', color: '#990000', bg: '#fff0f0', domains: ['archiveofourown.org', 'ao3.org'], note: 'Archive of Our Own' },
-  { id: 'pixiv', name: 'Pixiv', icon: 'fa-solid fa-paintbrush', color: '#0096fa', bg: '#e7f6ff', domains: ['booth.pm', 'fanbox.cc', 'pixiv.co.jp', 'pixiv.me', 'pixiv.net', 'pixiv.org', 'pximg.net'], note: 'Artwork and image delivery' },
-  { id: 'steam', name: 'Steam', icon: 'fa-brands fa-steam', color: '#1b2838', bg: '#e8f0f7', domains: ['s.team', 'steam-chat.com', 'steam.tv', 'steambroadcast.akamaized.net', 'steamcdn-a.akamaihd.net', 'steamchina.com', 'steamcommunity-a.akamaihd.net', 'steamcommunity.com', 'steamcontent.com', 'steamdeck.com', 'steamgames.com', 'steammobile.akamaized.net', 'steampipe.akamaized.net', 'steampowered.com', 'steamserver.net', 'steamstat.us', 'steamstatic.com', 'steamstore-a.akamaihd.net', 'steamusercontent-a.akamaihd.net', 'steamusercontent.com', 'steamuserimages-a.akamaihd.net', 'steamvideo-a.akamaihd.net', 'valvesoftware.com'], note: 'Store, community, downloads, and game assets' },
-  { id: 'twitch', name: 'Twitch', icon: 'fa-brands fa-twitch', color: '#9146ff', bg: '#f4ecff', domains: ['ext-twitch.tv', 'jtvnw.net', 'live-video.net', 'ttvnw.net', 'twitch.tv', 'twitchcdn.net', 'twitchsvc.net'], note: 'Streaming and media assets' },
-  { id: 'x', name: 'X', icon: 'fa-brands fa-x-twitter', color: '#252525', bg: '#ededed', domains: ['t.co', 'tweetdeck.com', 'twimg.co', 'twimg.com', 'twimg.org', 'twitter.com', 'twitteroauth.com', 'twtrdns.net', 'twttr.com', 'twvid.com', 'x.com'], note: 'Posts, images, and linked media' }
+  { id: 'discord', name: 'Discord', icon: 'fa-brands fa-discord', color: '#5865f2', bg: '#eef0ff', domains: [...presetDomains.discord], note: 'Chat, voice, and community services' },
+  { id: 'duckduckgo', name: 'DuckDuckGo', icon: 'fa-solid fa-magnifying-glass', color: '#e45b33', bg: '#fff0e9', domains: [...presetDomains.duckduckgo], note: 'Private search and related assets' },
+  { id: 'facebook', name: 'Facebook', icon: 'fa-brands fa-facebook-f', color: '#0866ff', bg: '#e9f1ff', domains: [...presetDomains.facebook], note: 'Social and messaging services' },
+  { id: 'instagram', name: 'Instagram', icon: 'fa-brands fa-instagram', color: '#d34b80', bg: '#fff0f6', domains: [...presetDomains.instagram], note: 'Photos, reels, and media assets' },
+  { id: 'github', name: 'GitHub', icon: 'fa-brands fa-github', color: '#24292f', bg: '#e9edf1', domains: [...presetDomains.github], note: 'Code hosting and related assets' },
+  { id: 'huggingface', name: 'Hugging Face', emoji: '🤗', domains: [...presetDomains.huggingface], note: 'Models, datasets, and inference' },
+  { id: 'ao3', name: 'AO3', icon: 'fa-solid fa-book-open', color: '#990000', bg: '#fff0f0', domains: [...presetDomains.ao3], note: 'Archive of Our Own' },
+  { id: 'pixiv', name: 'Pixiv', icon: 'fa-solid fa-paintbrush', color: '#0096fa', bg: '#e7f6ff', domains: [...presetDomains.pixiv], note: 'Artwork and image delivery' },
+  { id: 'steam', name: 'Steam', icon: 'fa-brands fa-steam', color: '#1b2838', bg: '#e8f0f7', domains: [...presetDomains.steam], note: 'Store, community, downloads, and game assets' },
+  { id: 'twitch', name: 'Twitch', icon: 'fa-brands fa-twitch', color: '#9146ff', bg: '#f4ecff', domains: [...presetDomains.twitch], note: 'Streaming and media assets' },
+  { id: 'x', name: 'X', icon: 'fa-brands fa-x-twitter', color: '#252525', bg: '#ededed', domains: [...presetDomains.x], note: 'Posts, images, and linked media' }
 ];
 const themeToggle = document.querySelector('#theme-toggle');
 const themeIcon = document.querySelector('#theme-icon');
@@ -120,7 +120,10 @@ function toast(message, error = false) {
   el.textContent = message; el.className = `toast visible${error ? ' error' : ''}`;
   clearTimeout(toast.timer); toast.timer = setTimeout(() => el.classList.remove('visible'), 4200);
 }
-function icon(platform, large = false) { return `<span class="platform-icon${large ? ' large' : ''}" style="--icon-color:${platform.color};--icon-bg:${platform.bg}"><i class="${platform.icon}" aria-hidden="true"></i></span>`; }
+function icon(platform, large = false) {
+  if (platform.emoji) return `<span class="platform-icon emoji${large ? ' large' : ''}" aria-hidden="true">${esc(platform.emoji)}</span>`;
+  return `<span class="platform-icon${large ? ' large' : ''}" style="--icon-color:${platform.color};--icon-bg:${platform.bg}"><i class="${platform.icon}" aria-hidden="true"></i></span>`;
+}
 function field(label, path, type = 'text') { return `<label class="field"><span>${label}</span><input data-path="${path}" type="${type}" value="${esc(val(path))}" ${type === 'number' ? 'min="0"' : ''} /></label>`; }
 function cardTitle(kicker, title, text) { return `<div class="section-head"><div><span class="eyebrow">${kicker}</span><h2>${title}</h2><p>${text}</p></div></div>`; }
 function currentIpMarkup() {
@@ -149,11 +152,9 @@ async function loadCurrentIpInfo() {
   if (visibleCard) visibleCard.innerHTML = currentIpMarkup();
 }
 function communityMarkup() {
-  const selected = (coreStatus.logs || []).filter(line => line.includes('startup IP selected website=')).slice(-10);
   return `<section class="surface form-surface">${cardTitle('COMMUNITY', 'Your IP location', 'See the public IP and approximate location of your current connection.')}
     <label class="community-toggle"><span><strong>Allow community uploads</strong><small>Uploads are unavailable until a community API is configured. This preference is off by default.</small></span><input id="community-upload-enabled" type="checkbox" ${communityUploadEnabled ? 'checked' : ''} /></label>
     <div class="info-tile current-ip-card" id="current-ip-card" aria-live="polite">${currentIpMarkup()}</div>
-    <div class="info-tile"><strong>Selected IPs on this start</strong><pre id="selected-ip-output">${esc(selected.join('\n') || 'No verified IPs yet.')}</pre></div>
   </section>`;
 }
 function renderNav() {
@@ -166,7 +167,7 @@ function renderOverview() {
   const selectedMethod = ['hosts', 'proxy', 'dns'].find(key => systemSettings[key]) || 'dns';
   const methodName = { hosts: 'Hosts file', proxy: 'System proxy', dns: 'System DNS' }[selectedMethod];
   content.innerHTML = `<div class="section-row overview-heading"><div><span class="eyebrow">AT A GLANCE</span><h1>Network overview</h1></div></div>
-  <section class="surface routing-surface" aria-label="Routing controls"><div class="routing-row"><span class="routing-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></span><span class="routing-label"><strong>Routing</strong></span><label class="switch" aria-label="Routing"><input type="checkbox" data-system-setting="enabled" ${routingActive(routingMode) ? 'checked' : ''} ${window.desktop.platform === 'darwin' ? '' : 'disabled'} /><span class="switch-track" aria-hidden="true"></span></label></div><button class="routing-row routing-config-row" data-action="toggle-system-config" aria-expanded="${systemConfigOpen}" aria-controls="system-config-panel" type="button"><span class="routing-icon"><i class="fa-solid fa-sliders" aria-hidden="true"></i></span><span class="routing-label"><strong>Connection methods</strong></span><span class="routing-current-method">${esc(methodName)}</span><span class="routing-config-link"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></span></button><div class="routing-config-panel" id="system-config-panel" ${systemConfigOpen ? '' : 'hidden'}><div class="routing-methods" role="radiogroup" aria-label="Connection method"><label class="routing-method"><span><strong>Hosts file</strong><small>Route listed sites through the local gateway</small></span><input type="radio" name="connection-method" data-system-setting="hosts" ${selectedMethod === 'hosts' ? 'checked' : ''} ${window.desktop.platform === 'darwin' ? '' : 'disabled'} /></label><label class="routing-method"><span><strong>System proxy</strong><small>Use the local HTTP proxy while routing is on</small></span><input type="radio" name="connection-method" data-system-setting="proxy" ${selectedMethod === 'proxy' ? 'checked' : ''} ${window.desktop.platform === 'darwin' ? '' : 'disabled'} /></label><label class="routing-method"><span><strong>System DNS</strong><small>Use the local DNS server while routing is on</small></span><input type="radio" name="connection-method" data-system-setting="dns" ${selectedMethod === 'dns' ? 'checked' : ''} ${window.desktop.platform === 'darwin' ? '' : 'disabled'} /></label></div></div></section>
+  <section class="surface routing-surface" aria-label="Routing controls"><div class="routing-row"><span class="routing-icon"><i class="fa-solid fa-globe" aria-hidden="true"></i></span><span class="routing-label"><strong>Routing</strong></span><label class="switch" aria-label="Routing"><input type="checkbox" data-system-setting="enabled" ${routingActive(routingMode) ? 'checked' : ''} ${window.desktop.platform === 'darwin' ? '' : 'disabled'} /><span class="switch-track" aria-hidden="true"></span></label></div><button class="routing-row routing-config-row" data-action="toggle-system-config" aria-expanded="${systemConfigOpen}" aria-controls="system-config-panel" type="button"><span class="routing-icon"><i class="fa-solid fa-sliders" aria-hidden="true"></i></span><span class="routing-label"><strong>Connection methods</strong></span><span class="routing-current-method">${esc(methodName)}</span><span class="routing-config-link"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></span></button><div class="routing-config-panel" id="system-config-panel" ${systemConfigOpen ? '' : 'hidden'}><div class="routing-methods" role="radiogroup" aria-label="Connection method"><label class="routing-method"><span><strong>Hosts file</strong><small>Route listed sites through the local gateway. The gateway CA must be trusted by your Mac.</small></span><input type="radio" name="connection-method" data-system-setting="hosts" ${selectedMethod === 'hosts' ? 'checked' : ''} ${window.desktop.platform === 'darwin' ? '' : 'disabled'} /></label><label class="routing-method"><span><strong>System proxy</strong><small>Use the local HTTP proxy while routing is on</small></span><input type="radio" name="connection-method" data-system-setting="proxy" ${selectedMethod === 'proxy' ? 'checked' : ''} ${window.desktop.platform === 'darwin' ? '' : 'disabled'} /></label><label class="routing-method"><span><strong>System DNS</strong><small>Use the local DNS server while routing is on</small></span><input type="radio" name="connection-method" data-system-setting="dns" ${selectedMethod === 'dns' ? 'checked' : ''} ${window.desktop.platform === 'darwin' ? '' : 'disabled'} /></label></div></div></section>
   <div class="stat-grid"><div class="stat-card"><div class="stat-icon blue"><i class="fa-solid fa-layer-group"></i></div><span>SITES</span><strong>${platforms.length}</strong><small>Ready to configure</small></div><div class="stat-card"><div class="stat-icon purple"><i class="fa-solid fa-globe"></i></div><span>ORIGIN RULES</span><strong>${custom}</strong><small>Exact & wildcard domains</small></div><div class="stat-card"><div class="stat-icon green"><i class="fa-solid fa-route"></i></div><span>ROUTING MODE</span><strong class="stat-word">${esc(routingMode)}</strong><small>${routingMode === 'rule' ? 'GFW List rules' : routingMode === 'global' ? 'All domains' : 'Direct connections'}</small></div></div>
   ${coreStatus.error ? `<div class="alert">${esc(coreStatus.error)} Check the activity log in Settings.</div>` : ''}`;
   if (systemSettingsUpdating || coreStatus.starting) content.querySelectorAll('[data-system-setting]').forEach(input => { input.disabled = true; });
@@ -176,9 +177,9 @@ function renderGlobal() {
   <section class="surface form-surface">${cardTitle('DNS RESOLUTION', 'DNS over HTTPS', 'Resolve selected sites through the configured encrypted DNS endpoint.')}<div class="form-grid">${field('Primary DoH endpoint', 'dns.doh_server')}<label class="field"><span>Bootstrap IP addresses</span><input data-array="dns.bootstrap_addresses" value="${esc(comma(val('dns.bootstrap_addresses', [])))}" /></label>${field('Direct DoH endpoint', 'dns.direct_doh_server')}<label class="field"><span>Direct bootstrap IPs</span><input data-array="dns.direct_bootstrap_addresses" value="${esc(comma(val('dns.direct_bootstrap_addresses', [])))}" /></label></div></section>
   <section class="surface form-surface">${cardTitle('MATCHING & REWRITES', 'Routing rules', 'Use the GFW List for generic wildcard coverage and add your own domain rules.')}<div class="form-grid"><label class="field"><span>Routing mode</span><select data-path="routing.mode"><option value="rule" ${val('routing.mode') === 'rule' ? 'selected' : ''}>Rule · GFW List</option><option value="global" ${val('routing.mode') === 'global' ? 'selected' : ''}>Global · all domains</option><option value="bypass" ${val('routing.mode') === 'bypass' ? 'selected' : ''}>Bypass · direct only</option></select></label>${field('Rule list URL', 'routing.rule_list_url')}${field('Refresh interval (hours)', 'routing.refresh_hours', 'number')}</div><label class="field full"><span>Additional routing rules</span><textarea data-lines="routing.rules" rows="4" placeholder="||example.com">${esc((val('routing.rules', []) || []).join('\n'))}</textarea></label></section>
   <section class="surface form-surface">${cardTitle('CDN ORIGINS', 'Origin IP lists', 'Named CDN lists can supply candidate IPs to any site domain. Startup checks use bundled provider CIDR snapshots.')}<div class="list-grid">${Object.entries(val('origin.lists', {})).map(([name, url]) => `<label class="field"><span>${esc(listLabel(name))}</span><input data-list-url="${esc(name)}" value="${esc(url)}" /></label>`).join('')}</div></section>
-  <section class="surface form-surface">${cardTitle('LOCAL LISTENERS', 'Proxy & DNS ports', 'Optional local proxy and DNS ports for apps that use them.')}<div class="form-grid">${field('HTTP proxy', 'proxy.http_listen')}${field('SOCKS5 proxy', 'proxy.socks5_listen')}${field('Local DNS', 'dns.listen')}</div><button class="ca-button" data-action="toggle-ca" aria-expanded="false" aria-controls="ca-panel" type="button"><span class="muted-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span><span><strong>HTTPS gateway CA</strong><small>Generate or trust the certificate</small></span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="ca-panel" id="ca-panel" hidden><p>Starting all listeners requires an existing CA certificate and key. Hosts and system DNS routing also require this CA to be trusted by your Mac. Regenerating backs up the old files; trust the new CA and remove old trust separately.</p><div class="ca-actions"><button class="text-button" data-action="generate-ca" type="button">${caExists ? 'Regenerate CA files' : 'Generate CA files'}</button><button class="text-button" data-action="trust-ca" type="button">Trust gateway CA</button></div></div></section>
+  <section class="surface form-surface">${cardTitle('LOCAL LISTENERS', 'Proxy & DNS ports', 'Optional local proxy and DNS ports for apps that use them.')}<div class="form-grid">${field('HTTP proxy', 'proxy.http_listen')}${field('SOCKS5 proxy', 'proxy.socks5_listen')}${field('Local DNS', 'dns.listen')}</div><button class="ca-button" data-action="toggle-ca" aria-expanded="false" aria-controls="ca-panel" type="button"><span class="muted-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></span><span><strong>HTTPS gateway CA</strong><small>Generate or trust the certificate</small></span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button><div class="ca-panel" id="ca-panel" hidden><p>Starting all listeners requires an existing CA certificate and key. Hosts and system DNS routing also require this CA to be trusted by your Mac. The app creates and trusts a missing CA on first start. Regenerating backs up the old files; trust the new CA and remove old trust separately.</p><div class="ca-actions"><button class="text-button" data-action="generate-ca" type="button">${caExists ? 'Regenerate CA files' : 'Generate CA files'}</button><button class="text-button" data-action="trust-ca" type="button">Trust gateway CA</button></div></div></section>
   ${communityMarkup()}
-  <section class="surface form-surface speedtest-surface">${cardTitle('CONNECTION QUALITY', 'IP selection & speed test', 'Core checks provider IPs at startup, verifies HTTPS certificates, and selects fast candidates. You can also test addresses on demand.')}<div class="form-grid">${field('Download size (bytes)', 'speedtest.download_bytes', 'number')}${field('Minimum speed (Mbps)', 'speedtest.min_mbps', 'number')}${field('Timeout (seconds)', 'speedtest.timeout_seconds', 'number')}</div><label class="field full"><span>Addresses to test</span><input id="speedtest-targets" value="${esc(speedtestTargets)}" placeholder="1.1.1.1:443, 1.0.0.0/24" /></label><button class="primary" data-action="speedtest" type="button">Run speed test</button><pre id="speedtest-output" ${speedtestResult ? '' : 'hidden'}>${esc(speedtestResult)}</pre></section>
+  <section class="surface form-surface speedtest-surface">${cardTitle('CONNECTION QUALITY', 'IP selection & speed test', 'Core checks provider IPs at startup, verifies HTTPS certificates, and selects fast candidates. You can also test addresses on demand.')}<div class="form-grid">${field('Download size (bytes)', 'speedtest.download_bytes', 'number')}${field('Minimum speed (Mbps)', 'speedtest.min_mbps', 'number')}${field('Timeout (seconds)', 'speedtest.timeout_seconds', 'number')}<label class="field"><span>Addresses to test</span><input id="speedtest-targets" value="${esc(speedtestTargets)}" placeholder="1.1.1.1:443, 1.0.0.0/24" /></label></div><button class="primary" data-action="speedtest" type="button">Run speed test</button><pre id="speedtest-output" ${speedtestResult ? '' : 'hidden'}>${esc(speedtestResult)}</pre></section>
   <section class="surface form-surface activity">${cardTitle('DIAGNOSTICS', 'Activity log', `Configuration: ${esc(configFile)}`)}<pre id="log-output">${esc((coreStatus.logs || []).join('\n') || 'No activity yet. Start the service to see its output.')}</pre><div class="diagnostic-actions"><span>Restore the core's source configuration. Platform data and CA files are kept.</span><button class="reset-config-button" data-action="reset-config" type="button">Reset config</button></div></section>`;
 }
 function renderPlatform(platform) {
@@ -193,13 +194,12 @@ function renderPlatform(platform) {
   content.innerHTML = `<div class="platform-header"><div>${icon(platform, true)}<div><span class="eyebrow">SITE SETTINGS</span><h1>${esc(platform.name)}</h1><p>${esc(platform.note)}</p></div></div></div>
   <section class="surface form-surface"><div class="section-head"><div><span class="eyebrow">DOMAIN COVERAGE</span><h2>Domains & origin IPs</h2><p>Enter a named CDN list or comma-separated IPs. Leave blank for automatic DoH resolution.</p></div><button class="new-domain-button" data-action="show-add-domain" type="button">New</button></div><form id="add-domain-form" class="add-domain-form" hidden><input id="new-domain" name="domain" placeholder="example.com" aria-label="New domain" required /><button type="submit">Add domain</button><button data-action="cancel-add-domain" type="button">Cancel</button></form><div class="domain-list">${entries}</div></section>`;
 }
+function popupClosed() { document.dispatchEvent(new Event('app:popup-close')); }
 function render() { renderNav(); if (!config) return; if (current === 'overview') renderOverview(); else if (current === 'global') { renderGlobal(); if (currentIpInfo.status === 'idle') loadCurrentIpInfo(); } else renderPlatform(platforms.find(p => p.id === current)); updateStatus(); }
 function updateStatus() {
   if (current === 'global') {
     const log = document.querySelector('#log-output');
     if (log) log.textContent = (coreStatus.logs || []).join('\n') || 'No activity yet. Start the service to see its output.';
-    const selected = document.querySelector('#selected-ip-output');
-    if (selected) selected.textContent = (coreStatus.logs || []).filter(line => line.includes('startup IP selected website=')).slice(-10).join('\n') || 'No verified IPs yet.';
   }
 }
 function platformChange(domain) {
@@ -297,10 +297,10 @@ document.addEventListener('click', async event => {
   const page = event.target.closest('[data-page]')?.dataset.page;
   if (page) { current = page; render(); return; }
   const action = event.target.closest('[data-action]')?.dataset.action;
-  if (action === 'show-add-platform') { const form = document.querySelector('#platform-create-form'); form.hidden = !form.hidden; if (!form.hidden) form.querySelector('input').focus(); }
-  if (action === 'cancel-add-platform') { const form = document.querySelector('#platform-create-form'); form.reset(); form.hidden = true; }
-  if (action === 'show-add-domain') { const form = content.querySelector('#add-domain-form'); form.hidden = !form.hidden; if (!form.hidden) form.querySelector('input').focus(); }
-  if (action === 'cancel-add-domain') { const form = content.querySelector('#add-domain-form'); form.reset(); form.hidden = true; }
+  if (action === 'show-add-platform') { const form = document.querySelector('#platform-create-form'); form.hidden = !form.hidden; if (!form.hidden) form.querySelector('input').focus(); else popupClosed(); }
+  if (action === 'cancel-add-platform') { const form = document.querySelector('#platform-create-form'); form.reset(); form.hidden = true; popupClosed(); }
+  if (action === 'show-add-domain') { const form = content.querySelector('#add-domain-form'); form.hidden = !form.hidden; if (!form.hidden) form.querySelector('input').focus(); else popupClosed(); }
+  if (action === 'cancel-add-domain') { const form = content.querySelector('#add-domain-form'); form.reset(); form.hidden = true; popupClosed(); }
   if (action === 'remove-domain') {
     const button = event.target.closest('button');
     const platform = platforms.find(item => item.id === current);
@@ -321,8 +321,8 @@ document.addEventListener('click', async event => {
       toast(`${domain} removed. Routing will update automatically.`);
     } catch (error) { button.disabled = false; toast(error.message, true); }
   }
-  if (action === 'toggle-system-config') { systemConfigOpen = !systemConfigOpen; renderOverview(); }
-  if (action === 'toggle-ca') { const button = event.target.closest('button'); const panel = document.querySelector('#ca-panel'); panel.hidden = !panel.hidden; button.setAttribute('aria-expanded', String(!panel.hidden)); }
+  if (action === 'toggle-system-config') { systemConfigOpen = !systemConfigOpen; if (!systemConfigOpen) popupClosed(); renderOverview(); }
+  if (action === 'toggle-ca') { const button = event.target.closest('button'); const panel = document.querySelector('#ca-panel'); panel.hidden = !panel.hidden; button.setAttribute('aria-expanded', String(!panel.hidden)); if (panel.hidden) popupClosed(); }
   if (action === 'generate-ca') {
     const button = event.target.closest('button');
     button.disabled = true;
@@ -336,7 +336,9 @@ document.addEventListener('click', async event => {
   }
   if (action === 'trust-ca') { try { const result = await window.desktop.trustCA(); toast(result || 'Gateway CA trusted.'); } catch (error) { toast(error.message, true); } }
   if (action === 'reset-config') {
-    if (!window.confirm('Reset configuration to the core defaults? Your current saved config will be backed up, and routing may restart.')) return;
+    const confirmed = window.confirm('Reset configuration to the core defaults? Your current saved config will be backed up, and routing may restart.');
+    popupClosed();
+    if (!confirmed) return;
     const button = event.target.closest('button');
     button.disabled = true;
     try {
@@ -383,7 +385,7 @@ document.addEventListener('submit', async event => {
       const added = await window.desktop.addPlatform(form.elements.namedItem('platformName').value);
       platforms.push({ ...added, icon: 'fa-solid fa-globe', color: '#4285f4', bg: '#eaf2ff', domains: [], note: 'Your custom platform' });
       platforms.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
-      form.reset(); form.hidden = true;
+      form.reset(); form.hidden = true; popupClosed();
       current = added.id;
       render();
       toast(`${added.name} added.`);
@@ -405,6 +407,7 @@ document.addEventListener('submit', async event => {
       platform.addedDomains.push(added.domain);
       includeAddedDomainRules([added.domain]);
       markDirty();
+      popupClosed();
       render();
       toast(`${added.domain} added. Routing will update automatically.`);
     } catch (error) { toast(error.message, true); }
@@ -476,7 +479,7 @@ content.addEventListener('change', async event => {
   if (listUrl) { config.origin.lists[listUrl] = event.target.value.trim(); markDirty(); }
   if (domainIp || wildcard) platformChange(domainIp || wildcard);
 });
-window.desktop.onCoreStatus(status => { coreStatus = status; updateStatus(); if (current === 'overview') renderOverview(); });
+window.desktop.onCoreStatus(status => { coreStatus = status; if (status.running) caExists = true; updateStatus(); if (current === 'overview') renderOverview(); });
 (async () => {
   try {
     const loaded = await window.desktop.loadConfig();

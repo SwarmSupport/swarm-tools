@@ -19,10 +19,13 @@ targets:
     dependencies:
       - target: PacketTunnel
         embed: true
+      - framework: Frameworks/STCore.xcframework
   PacketTunnel:
     type: app-extension
     platform: iOS
     sources: [PacketTunnel]
+    dependencies:
+      - framework: Frameworks/STCore.xcframework
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.northstar.mobile.PacketTunnel

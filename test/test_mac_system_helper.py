@@ -37,6 +37,15 @@ class HostsBlockTests(unittest.TestCase):
 
 
 class SupervisorTests(unittest.TestCase):
+    def test_core_exit_reports_the_actual_log_error(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log_path = pathlib.Path(directory) / "core.log"
+            log_path.write_text("routing mode=rule\n2026/10/05 load routing rules: download failed\n")
+            child = mock.Mock(returncode=1)
+            child.poll.return_value = 1
+            with self.assertRaisesRegex(RuntimeError, "load routing rules: download failed"):
+                module.wait_for_port(53, child, str(log_path))
+
     def test_dns_only_does_not_change_proxy(self):
         def command(*args):
             if args[1] == "-listallnetworkservices":

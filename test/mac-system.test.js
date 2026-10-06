@@ -5,6 +5,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { runtimeConfig, managedDomains } = require('../mac-system');
 const { readSystemSettings, writeSystemSettings } = require('../system-settings');
+const presetDomains = require('../preset-domains');
 
 const config = {
   https_listen: '127.0.0.1:8443',
@@ -49,6 +50,13 @@ test('managed hosts include known sites and exact configured domains', () => {
   assert.ok(domains.includes('example.com'));
   assert.ok(domains.includes('custom.example'));
   assert.ok(!domains.includes('*.example.com'));
+});
+
+test('offline routing fallback covers the app site catalog', () => {
+  const fallback = new Set(fs.readFileSync(path.join(__dirname, '..', 'st-core', 'internal', 'routing', 'fallback_rules.txt'), 'utf8').split(/\r?\n/));
+  for (const domain of Object.values(presetDomains).flat()) {
+    assert.ok(fallback.has(`||${domain}`), `missing offline rule for ${domain}`);
+  }
 });
 
 test('routing switch and one selected method persist independently of core config', () => {

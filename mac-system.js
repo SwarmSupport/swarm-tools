@@ -1,14 +1,9 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { spawn, spawnSync } = require('node:child_process');
+const presetDomains = require('./preset-domains');
 
-const siteDomains = [
-  'discord.com', 'discord.gg', 'discordapp.com', 'discordapp.net', 'dis.gd',
-  'duckduckgo.com', 'duck.com', 'duck.ai', 'twitch.tv', 'ttvnw.net', 'jtvnw.net',
-  'ext-twitch.tv', 'live-video.net', 'x.com', 'twitter.com', 'twimg.com', 't.co',
-  'facebook.com', 'fbcdn.net', 'messenger.com', 'fb.me', 'instagram.com',
-  'cdninstagram.com', 'pixiv.net', 'pximg.net', 'pixiv.me'
-];
+const siteDomains = Object.values(presetDomains).flat();
 
 function localPort(address, label) {
   const match = /^(127\.0\.0\.1|localhost):(\d+)$/.exec(address || '');

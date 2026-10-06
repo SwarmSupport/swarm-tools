@@ -156,3 +156,18 @@ __MACOSX/
 # Locally built core binaries
 bin/st-core
 bin/st-core.exe
+
+# Locally built artifacts and toolchains
+bin/st-core
+bin/st-core.exe
+mobile/android/app/libs/
+mobile/ios/Frameworks/
+.tools/
+st-core/gfwlist.cache
+st-core/*.crt
+st-core/*.key
+
+# macOS metadata
+.DS_Store
+._*
+__MACOSX/

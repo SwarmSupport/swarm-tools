@@ -6,6 +6,8 @@
   "main": "main.js",
   "scripts": {
     "build:core": "node scripts/build-core.js",
+    "build:mobile:android": "bash st-core/scripts/build-mobile.sh android",
+    "build:mobile:ios": "bash st-core/scripts/build-mobile.sh ios com.northstar.mobile",
     "prestart": "npm run build:core",
     "start": "electron .",
     "test": "node --test && python3 -m unittest discover -s test -p 'test_*.py'"

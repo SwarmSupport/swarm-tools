@@ -66,4 +66,27 @@ async function generateOrRegenerateCA({ config, coreDirectory, generate, validat
   }
 }
 
-module.exports = { caPaths, fileExists, validatePair, generateOrRegenerateCA };
+async function prepareCAForStart({ config, coreDirectory, trustMarker, generate, install, validate = validatePair }) {
+  const { certPath, keyPath } = caPaths(config, coreDirectory);
+  const certExists = fileExists(certPath);
+  const keyExists = fileExists(keyPath);
+  if (certExists !== keyExists) throw new Error('CA certificate and private key must either both exist or both be absent.');
+  if (!certExists) {
+    await generateOrRegenerateCA({ config, coreDirectory, generate, validate });
+  } else validate(certPath, keyPath);
+
+  if (install) {
+    const fingerprint = crypto.createHash('sha256').update(fs.readFileSync(certPath)).digest('hex');
+    let trusted = false;
+    try { trusted = fs.readFileSync(trustMarker, 'utf8').trim() === fingerprint; }
+    catch (error) { if (error.code !== 'ENOENT') throw error; }
+    if (!trusted) {
+      await install();
+      fs.mkdirSync(path.dirname(trustMarker), { recursive: true });
+      fs.writeFileSync(trustMarker, fingerprint, { mode: 0o600 });
+    }
+  }
+  return { generated: !certExists };
+}
+
+module.exports = { caPaths, fileExists, validatePair, generateOrRegenerateCA, prepareCAForStart };

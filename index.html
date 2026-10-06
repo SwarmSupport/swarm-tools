@@ -8,7 +8,9 @@
   <link id="app-favicon" rel="icon" type="image/png" href="assets/app-icon.png?v=6" />
   <link rel="stylesheet" href="node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="preset-domains.js" defer></script>
   <script src="renderer.js" defer></script>
+  <script src="ripple.js" defer></script>
 </head>
 <body>
   <div class="app">
@@ -16,9 +18,8 @@
       <div class="topbar-brand"><img id="brand-icon" src="assets/app-icon.png?v=6" alt="" /><strong>Swarm Tools</strong></div>
       <div class="top-actions">
         <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark theme" title="Switch to dark theme"><i id="theme-icon" class="fa-solid fa-moon" aria-hidden="true"></i></button>
-        <span id="save-status" class="save-status" role="status" aria-live="polite"></span>
-        <button class="topbar-settings" data-page="global" type="button" aria-label="Settings" title="Settings"><i class="fa-solid fa-gear" aria-hidden="true"></i></button>
       </div>
+      <span id="save-status" class="visually-hidden" role="status" aria-live="polite"></span>
     </header>
     <div class="workspace">
       <aside class="sidebar">

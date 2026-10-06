@@ -151,11 +151,23 @@ def write_status(path, **status):
     os.chmod(path, 0o644)
 
 
-def wait_for_port(port, child):
+def core_exit_error(child, log_path):
+    message = f"st-core exited with code {child.returncode}"
+    try:
+        with open(log_path, encoding="utf-8") as file:
+            lines = [line.strip() for line in file if line.strip()]
+        if lines:
+            return f"{message}: {lines[-1]}"
+    except OSError:
+        pass
+    return message
+
+
+def wait_for_port(port, child, log_path):
     deadline = time.monotonic() + 25
     while time.monotonic() < deadline:
         if child.poll() is not None:
-            raise RuntimeError(f"st-core exited with code {child.returncode}")
+            raise RuntimeError(core_exit_error(child, log_path))
         try:
             with socket.create_connection(("127.0.0.1", port), timeout=0.25):
                 return
@@ -177,10 +189,10 @@ def supervise(request):
             cwd=request["coreDirectory"], stdout=log, stderr=subprocess.STDOUT,
         )
         for port in request["checkPorts"]:
-            wait_for_port(port, child)
+            wait_for_port(port, child, request["logPath"])
         time.sleep(0.5)
         if child.poll() is not None:
-            raise RuntimeError(f"st-core exited with code {child.returncode}")
+            raise RuntimeError(core_exit_error(child, request["logPath"]))
         if request["proxy"] or request["dns"]:
             snapshot = network_snapshot(request["proxy"], request["dns"])
             apply_network(snapshot, "127.0.0.1", request["proxyPort"], request["proxy"], request["dns"])
@@ -191,7 +203,7 @@ def supervise(request):
         while not stop_requested and child.poll() is None and alive(request["appPid"]) and not os.path.exists(request["stopPath"]):
             time.sleep(0.3)
         if child.poll() is not None and not stop_requested and alive(request["appPid"]) and not os.path.exists(request["stopPath"]):
-            raise RuntimeError(f"st-core exited with code {child.returncode}")
+            raise RuntimeError(core_exit_error(child, request["logPath"]))
     except Exception as error:
         log.write(f"System integration error: {error}\n")
         write_status(request["statusPath"], state="error", error=str(error))

@@ -3,6 +3,10 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+dependencies {
+    implementation(files("libs/st-core.aar"))
+}
+
 android {
     namespace = "com.northstar.mobile"
     compileSdk = 35

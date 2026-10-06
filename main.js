@@ -5,7 +5,7 @@ const { app, BrowserWindow, ipcMain, nativeTheme, shell } = require('electron');
 const { restoreDefaultPorts } = require('./mac-ports');
 const { readSystemSettings, writeSystemSettings } = require('./system-settings');
 const { startSystemIntegration } = require('./mac-system');
-const { caPaths, generateOrRegenerateCA } = require('./ca-manager');
+const { caPaths, generateOrRegenerateCA, prepareCAForStart } = require('./ca-manager');
 
 app.setName('Swarm Tools');
 const primaryInstance = app.requestSingleInstanceLock();
@@ -24,10 +24,10 @@ function updateDockIcon() {
   if (process.platform === 'darwin') app.dock.setIcon(appIconPath());
 }
 
-const coreDirectory = process.env.ST_CORE_DIR || '/Users/xiaoyuan/Documents/st-core';
+const coreDirectory = process.env.ST_CORE_DIR || path.join(__dirname, 'st-core');
 const binaryName = process.platform === 'win32' ? 'st-core.exe' : 'st-core';
 const builtCoreBinary = path.join(__dirname, 'bin', binaryName);
-const coreBinary = fs.existsSync(builtCoreBinary) ? builtCoreBinary : path.join(coreDirectory, binaryName);
+const coreBinary = builtCoreBinary;
 const sourceConfig = path.join(coreDirectory, 'config.yaml');
 let coreProcess = null;
 let systemSession = null;
@@ -206,11 +206,17 @@ if (primaryInstance) app.whenReady().then(() => {
     coreStarting = true;
     broadcast();
     try {
-    const { file } = await loadConfig();
+    const { config, file } = await loadConfig();
+    const ca = await prepareCAForStart({
+      config, coreDirectory,
+      trustMarker: path.join(app.getPath('userData'), 'trusted-ca.sha256'),
+      generate: () => coreCommand(file, ['ca', 'generate']),
+      install: ['darwin', 'win32'].includes(process.platform) ? () => coreCommand(file, ['ca', 'install']) : null
+    });
+    if (ca.generated) appendLog('Gateway CA generated for first startup.');
     const settings = readSystemSettings(app.getPath('userData'));
     if (settings.enabled && (settings.hosts || settings.proxy || settings.dns)) {
       if (process.platform !== 'darwin') throw new Error('Automatic system integration is currently supported on macOS only.');
-      const config = JSON.parse(await pythonYaml('read', file));
       systemSession = await startSystemIntegration(config, settings, {
         userData: app.getPath('userData'), coreBinary, coreDirectory,
         writeYaml: (target, value) => pythonYaml('write', target, value),
